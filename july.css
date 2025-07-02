@@ -1,5 +1,8 @@
 body {
-  background: #222;
+  background-image: url(bg.png);
+  background-size: cover;        /* ทำให้รูปเต็มจอ โดยไม่เสียสัดส่วน */
+  background-position: center;   /* จัดตำแหน่งให้อยู่ตรงกลาง */
+  background-repeat: no-repeat;  /* ไม่ให้ภาพซ้ำ */
   font-family: 'Caveat', cursive;
   display: flex;
   justify-content: center;
@@ -17,6 +20,22 @@ body {
   box-shadow: 0 6px 20px rgba(0,0,0,0.6);
   position: relative;
   color: #222;
+}
+
+.cassette-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  transition: opacity 0.6s ease;
+}
+
+.cassette-container.hidden {
+  opacity: 0;
+  pointer-events: none;
+}
+
+.cassette.slide-up {
+  transform: translateY(0);
 }
 
 .top-bar {
@@ -189,31 +208,25 @@ body {
 
 .polaroid-container {
   position: relative;
-  width: 400px;
-  height: 400px;
+  width: 1fr;
+  height: 1fr;
 }
 
 .polaroid {
-  position: absolute;
-  width: 110px;
-  background: #fff;
-  box-shadow: 0 4px 6px rgba(0,0,0,0.4);
-  padding: 8px 8px 20px;
-  font-family: 'Anuphan', sans-serif;
-  text-align: center;
-  transition: transform 0.3s ease;
+  position: relative;
+  width: auto;
+  max-width: 90vw;
+  max-height: 90vh;
+  margin: auto;
 }
 
 .polaroid img {
-  width: 100%;
+  max-width: 90vw;
+  max-height: 90vh;
+  width: auto;
   height: auto;
   border-radius: 2px;
-}
-
-.polaroid p {
-  margin: 5px 0 0;
-  font-size: 11px;
-  color: #222;
+  object-fit: contain;
 }
 
 .close-btn {
@@ -221,7 +234,7 @@ body {
   top: 20px;
   right: 30px;
   background: transparent;
-  color: rgba(255, 255, 255, 0.3);
+  color: rgba(0, 0, 0, 0.3);
   border: none;
   font-size: 16px;
   cursor: pointer;
