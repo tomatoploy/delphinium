@@ -9,14 +9,15 @@
   <title>for p'earth</title>
 </head>
 <body>
-  <div class="cassette">
+  <div id="cassetteBox" class="cassette">
     <div class="top-bar">
       <div class="waveform">
-        <div class="message">05/07/2025</div>
+        <div class="message" style="margin: 12px 5px; color: rgba(256, 256, 256, 0.5); font-size: 10px;">05/07/2025</div>
       </div>
       <div class="buttons">
         <button>毎日のうた</button> <!-- song kub-->
         <button>君への手紙</button> <!-- letter -->
+        <button id="photoBtn">写真</button>
       </div>
     </div>
     <p style="font-size: 12px; font-weight: 200;">to : my world ˚◞♡</p>
@@ -36,6 +37,29 @@
     <div class="message">
       <p style="margin-bottom: 0px;">今日も月がきれいですね。</p>
       <p style="margin: 0px 0px 5px 0px">2 months with you ♡</p>
+    </div>
+  </div>
+
+  <!-- Polaroid -->
+  <div id="photoOverlay" class="photo-overlay hidden">
+    <button class="close-btn">✖</button>
+    <div class="polaroid-container">
+      <div class="polaroid" style="top:40px; left:60px; transform: rotate(-6deg);">
+        <img src="img1.png" alt="Memory 1">
+        <p>with you</p>
+      </div>
+      <div class="polaroid" style="top:100px; left:220px; transform: rotate(7deg);">
+        <img src="img1.png" alt="Memory 2">
+        <p>笑顔の日</p>
+      </div>
+      <div class="polaroid" style="top:180px; left:120px; transform: rotate(-10deg);">
+        <img src="img1.png" alt="Memory 3">
+        <p>いつも一緒</p>
+      </div>
+      <div class="polaroid" style="top:160px; left:280px; transform: rotate(5deg);">
+        <img src="img1.png" alt="Memory 4">
+        <p>大切な日</p>
+      </div>
     </div>
   </div>
 
@@ -141,6 +165,27 @@
         document.getElementById('rightReel').classList.add('playing');
       }
     });
+  });
+
+  const photoOverlay = document.getElementById('photoOverlay');
+  const cassetteBox = document.getElementById('cassetteBox');
+
+  // แสดง overlay พร้อมเลื่อน cassette ลง
+  document.getElementById('photoBtn').addEventListener('click', () => {
+    cassetteBox.classList.add('slide-down');
+    photoOverlay.classList.remove('hidden');
+    setTimeout(() => {
+      photoOverlay.classList.add('show');
+    }, 10);
+  });
+
+  // ปิด overlay และเลื่อน cassette กลับ
+  document.querySelector('.close-btn').addEventListener('click', () => {
+    photoOverlay.classList.remove('show');
+    setTimeout(() => {
+      photoOverlay.classList.add('hidden');
+      cassetteBox.classList.remove('slide-down');
+    }, 600);
   });
   </script>
 </body>
