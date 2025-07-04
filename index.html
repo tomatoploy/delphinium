@@ -29,6 +29,7 @@
       </div>
       <div class="deco">
         <div class="power-btn" id="powerBtn"></div>
+        <audio id="sfx-click" src="cassette-click.mp3"></audio>
         <audio id="audio" src="song.mp3"></audio>
         <audio id="sfx-typewriter" src="typewriter.mp3"></audio>
         <audio id="sfx-envelope" src="envelope-open.mp3"></audio>
@@ -61,10 +62,14 @@
   const tapeWindow = document.querySelector('.tape-window');
   const photoOverlay = document.getElementById('photoOverlay');
   const cassetteBox = document.getElementById('cassetteBox');
+  const sfxClick = document.getElementById('sfx-click');
   let isPlaying = false;
 
   // เล่น / หยุดเพลง
   powerBtn.addEventListener('click', () => {
+    // เปิด/ปิดเทป
+    sfxClick.currentTime = 0;
+    sfxClick.play();
     if (!isPlaying) {
       audio.play();
       leftReel.classList.add('playing');
@@ -77,6 +82,7 @@
       isPlaying = false;
     }
   });
+
 
   // พิมพ์ทีละตัวแบบทีละบรรทัด
   function typeWriterLines(lines, element, lineDelay = 1400, charSpeed = 20) {
