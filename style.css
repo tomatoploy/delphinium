@@ -38,6 +38,10 @@ body {
   transform: translateY(0);
 }
 
+.cassette.hidden {
+  display: none;
+}
+
 .top-bar {
   display: flex;
   justify-content: space-between;

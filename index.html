@@ -24,7 +24,7 @@
     <p style="font-size: 12px; font-weight: 200;">to : my world ˚◞♡</p>
     <div class="player">
       <div class="tape-window">
-        <video id="videoBg" class="video-bg" muted playsinline>
+        <video id="videoBg" class="video-bg" muted playsinline loop>
           <source src="video.mp4" type="video/mp4">
         </video>
         <!-- <div class="reel" id="leftReel"></div>
@@ -67,6 +67,7 @@
   const cassetteBox = document.getElementById('cassetteBox');
   const video = document.getElementById('videoBg');
   const sfxClick = document.getElementById('sfx-click');
+  const buttons = document.querySelectorAll('.buttons button');
   let isPlaying = false;
 
   // เล่น / หยุดเพลง : อันเก่า
@@ -94,19 +95,16 @@
 
     if (!isPlaying) {
       setTimeout(() => {
-        audio.currentTime = 0;
-        video.currentTime = 0;
+        // อย่า reset currentTime
         audio.play();
         video.play();
         video.classList.add('show');
-
         isPlaying = true;
       }, 1000);
     } else {
       audio.pause();
       video.pause();
       video.classList.remove('show');
-
       isPlaying = false;
     }
   });
@@ -144,12 +142,15 @@
     typeLine();
   }
 
-  // ปุ่มเทปเพลง
-  const buttons = document.querySelectorAll('.buttons button');
+
   buttons.forEach((btn, index) => {
     btn.addEventListener('click', () => {
       if (!isPlaying) {
+        audio.currentTime = 0;
+        video.currentTime = 0;
         audio.play();
+        video.play();
+        video.classList.add('show');
         isPlaying = true;
       }
 
@@ -158,8 +159,23 @@
         sfxEnvelope.play();
 
         setTimeout(() => {
-          tapeWindow.innerHTML = `<div id="letterText" style="font-family: 'Anuphan', sans-serif; padding:12px; font-size:10px; line-height:1.8; color:#fff; text-align:center;"></div>`;
-          const letterElement = document.getElementById('letterText');
+          // เคลียร์ของเก่าทิ้งก่อน
+          const oldContent = tapeWindow.querySelector('#letterText');
+          if (oldContent) oldContent.remove();
+
+          // เพิ่มข้อความจดหมาย (ซ้อนบนวิดีโอ)
+          const letterDiv = document.createElement("div");
+          letterDiv.id = "letterText";
+          letterDiv.style.fontFamily = "'Anuphan', sans-serif";
+          letterDiv.style.padding = "10px";
+          letterDiv.style.fontSize = "11.5px";
+          letterDiv.style.lineHeight = "1.8";
+          letterDiv.style.color = "#fff";
+          letterDiv.style.textAlign = "center";
+          letterDiv.style.position = "absolute";
+          letterDiv.style.zIndex = "1";
+
+          tapeWindow.appendChild(letterDiv);
 
           const letterLines = [
             `เย่ หวัดดีคับเทอ ✨; ⁺ ₊`,
@@ -169,21 +185,17 @@
             ขอบคุณเทอที่คอยซัพพอร์ตเค้าอยู่เสมอ ขอบคุณที่ในวันที่เทอเหนื่อย เทอก็ยังตามใจเค้าเสมอ
             แล้วก็ขอบคุณที่รักเค้านะ ครั้งนี้ก็ขอฝากตัวด้วยคั้บ💐`,
             `สุขสันต์วันครบรอบ 2 เดือนนะคะ⌒🧚🏻‍♀️⁕`,
-        ];
-        // รักและคิดถึงเทอนะ
-        // จาก 🐰
-        // 05/07/2025
+          ];
+          // รักและคิดถึงเทอนะ
+          // จาก 🐰
+          // 05/07/2025
 
-          typeWriterLines(letterLines, letterElement, 1400, 30);
+          typeWriterLines(letterLines, letterDiv, 1400, 30);
         }, 800);
       } else {
-        // ปุ่มอื่น : ล้อเทป
-        tapeWindow.innerHTML = `
-          <div class="reel" id="leftReel"></div>
-          <div class="reel" id="rightReel"></div>
-        `;
-        document.getElementById('leftReel').classList.add('playing');
-        document.getElementById('rightReel').classList.add('playing');
+        // ลบข้อความจดหมายออก (ถ้ามี)
+        const oldContent = tapeWindow.querySelector('#letterText');
+        if (oldContent) oldContent.remove();
       }
     });
   });
@@ -191,14 +203,13 @@
   // แสดง overlay
   document.getElementById('photoBtn').addEventListener('click', () => {
     cassetteBox.classList.add('slide-down');
-
     setTimeout(() => {
       cassetteBox.classList.add('hidden');
-      photoOverlay.classList.remove('hidden');
-      setTimeout(() => {
-        photoOverlay.classList.add('show');
-      }, 10);
     }, 600);
+    photoOverlay.classList.remove('hidden');
+    setTimeout(() => {
+      photoOverlay.classList.add('show');
+    }, 10);
   });
 
   // ปิด overlay
@@ -207,8 +218,8 @@
     setTimeout(() => {
       photoOverlay.classList.add('hidden');
       cassetteBox.classList.remove('slide-down');
-      cassetteBox.classList.add('slide-up');
       cassetteBox.classList.remove('hidden');
+      cassetteBox.classList.add('slide-up');
       setTimeout(() => {
         cassetteBox.classList.remove('slide-up');
       }, 600);
@@ -240,6 +251,11 @@
   }
 
   setInterval(createFloatingFlower, 800);
+
+  audio.addEventListener('ended', () => {
+    audio.currentTime = 0;
+    audio.play();
+  });
   </script>
 </body>
 </html>
