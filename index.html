@@ -29,10 +29,10 @@
       </div>
       <div class="deco">
         <div class="power-btn" id="powerBtn"></div>
-        <audio id="sfx-click" src="cassette-click.mp3"></audio>
         <audio id="audio" src="song.mp3"></audio>
         <audio id="sfx-typewriter" src="typewriter.mp3"></audio>
         <audio id="sfx-envelope" src="envelope-open.mp3"></audio>
+        <audio id="sfx-click" src="cassette-click.mp3"></audio>
         <div class="speaker"></div>
       </div>
     </div>
@@ -67,7 +67,6 @@
 
   // เล่น / หยุดเพลง
   powerBtn.addEventListener('click', () => {
-    // เปิด/ปิดเทป
     sfxClick.currentTime = 0;
     sfxClick.play();
     if (!isPlaying) {
@@ -82,7 +81,6 @@
       isPlaying = false;
     }
   });
-
 
   // พิมพ์ทีละตัวแบบทีละบรรทัด
   function typeWriterLines(lines, element, lineDelay = 1400, charSpeed = 20) {
