@@ -70,10 +70,12 @@
     sfxClick.currentTime = 0;
     sfxClick.play();
     if (!isPlaying) {
+      setTimeout(() => {
       audio.play();
       leftReel.classList.add('playing');
       rightReel.classList.add('playing');
       isPlaying = true;
+    }, 1000);
     } else {
       audio.pause();
       leftReel.classList.remove('playing');
