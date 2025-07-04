@@ -24,8 +24,11 @@
     <p style="font-size: 12px; font-weight: 200;">to : my world ˚◞♡</p>
     <div class="player">
       <div class="tape-window">
-          <div class="reel" id="leftReel"></div>
-          <div class="reel" id="rightReel"></div>
+        <video id="videoBg" class="video-bg" muted playsinline>
+          <source src="video.mp4" type="video/mp4">
+        </video>
+        <!-- <div class="reel" id="leftReel"></div>
+        <div class="reel" id="rightReel"></div> -->
       </div>
       <div class="deco">
         <div class="power-btn" id="powerBtn"></div>
@@ -62,24 +65,48 @@
   const tapeWindow = document.querySelector('.tape-window');
   const photoOverlay = document.getElementById('photoOverlay');
   const cassetteBox = document.getElementById('cassetteBox');
+  const video = document.getElementById('videoBg');
   const sfxClick = document.getElementById('sfx-click');
   let isPlaying = false;
 
-  // เล่น / หยุดเพลง
+  // เล่น / หยุดเพลง : อันเก่า
+  // powerBtn.addEventListener('click', () => {
+  //   sfxClick.currentTime = 0;
+  //   sfxClick.play();
+  //   if (!isPlaying) {
+  //     setTimeout(() => {
+  //     audio.play();
+  //     leftReel.classList.add('playing');
+  //     rightReel.classList.add('playing');
+  //     isPlaying = true;
+  //   }, 1000);
+  //   } else {
+  //     audio.pause();
+  //     leftReel.classList.remove('playing');
+  //     rightReel.classList.remove('playing');
+  //     isPlaying = false;
+  //   }
+  // });
+
   powerBtn.addEventListener('click', () => {
     sfxClick.currentTime = 0;
     sfxClick.play();
+
     if (!isPlaying) {
       setTimeout(() => {
-      audio.play();
-      leftReel.classList.add('playing');
-      rightReel.classList.add('playing');
-      isPlaying = true;
-    }, 1000);
+        audio.currentTime = 0;
+        video.currentTime = 0;
+        audio.play();
+        video.play();
+        video.classList.add('show');
+
+        isPlaying = true;
+      }, 1000);
     } else {
       audio.pause();
-      leftReel.classList.remove('playing');
-      rightReel.classList.remove('playing');
+      video.pause();
+      video.classList.remove('show');
+
       isPlaying = false;
     }
   });
